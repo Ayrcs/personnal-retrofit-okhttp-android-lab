@@ -41,6 +41,19 @@ android {
 
 // Dépendances par défaut
 dependencies {
+    // Dépendances Retrofit et OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Dépendances supplémentaires Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.compose) // fournit collectAsStateWithLifecycle()
+    implementation(libs.androidx.lifecycle.viewmodel.ktx) // fournit notamment viewModelScope
+    implementation(libs.androidx.lifecycle.viewmodel.compose) // permet de récupérer un ViewModel avec viewModel() dans Compose.
+
+    // Dépendances par défaut
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -56,13 +69,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
-}
-
-// Dépendances Retrofit et OkHttp
-dependencies {
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
 }
