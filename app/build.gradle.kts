@@ -41,6 +41,14 @@ android {
 
 // Dépendances par défaut
 dependencies {
+    // Dépendances Retrofit et OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Dépendances par défaut
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -56,13 +64,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
-}
 
-// Dépendances Retrofit et OkHttp
-dependencies {
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
+    // Dépendances ajoutées
+    implementation(libs.androidx.material3)
 }
