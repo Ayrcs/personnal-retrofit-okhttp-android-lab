@@ -12,6 +12,13 @@ data class LoginRequestDto(
     val mode: String = "json"
 )
 
+data class LogoutRequestDto(
+    @SerializedName("refresh_token")
+    val refreshToken: String,
+
+    val mode: String = "json"
+)
+
 data class RefreshRequestDto(
     @SerializedName("refresh_token")
     val refreshToken: String,
@@ -28,3 +35,4 @@ data class AuthTokensDto(
     @SerializedName("refresh_token")
     val refreshToken: String
 )
+

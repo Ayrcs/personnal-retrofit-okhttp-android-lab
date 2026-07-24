@@ -3,6 +3,7 @@ package com.example.learnretrofitokhttp.data.remote.api
 import com.example.learnretrofitokhttp.data.remote.dto.AuthTokensDto
 import com.example.learnretrofitokhttp.data.remote.dto.DirectusResponse
 import com.example.learnretrofitokhttp.data.remote.dto.LoginRequestDto
+import com.example.learnretrofitokhttp.data.remote.dto.LogoutRequestDto
 import com.example.learnretrofitokhttp.data.remote.dto.RefreshRequestDto
 import com.example.learnretrofitokhttp.data.remote.dto.TestDto
 import retrofit2.http.Body
@@ -20,6 +21,11 @@ interface DirectusApi {
         // corps HTTP.
         @Body request: LoginRequestDto
     ): DirectusResponse<AuthTokensDto>
+
+    @POST("auth/logout")
+    suspend fun logout(
+        @Body request: LogoutRequestDto
+    )
 
     @POST("auth/refresh")
     suspend fun refresh(
