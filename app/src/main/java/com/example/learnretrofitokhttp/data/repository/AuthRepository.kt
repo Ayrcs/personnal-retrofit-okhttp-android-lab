@@ -41,7 +41,7 @@ class AuthRepository(
             LoginResult.SUCCESS
 
         } catch (exception: HttpException) {
-            if (exception.code() == 401) {
+            if (exception.code() in setOf(400, 401)) {
                 LoginResult.INVALID_CREDENTIALS
             } else {
                 LoginResult.SERVER_ERROR

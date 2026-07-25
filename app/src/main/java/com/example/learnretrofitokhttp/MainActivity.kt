@@ -4,23 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.learnretrofitokhttp.ui.navigation.AppNavigation
 import com.example.learnretrofitokhttp.ui.theme.LearnRetrofitOkHttpTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // On récupère l'objet application en le castant par LearnRetrofitOkHttpApplication
+        val application = application as LearnRetrofitOkHttpApplication
+        val authRepository = application.container.authRepository
+
+        // Permet à la fenêtre de l’application d’occuper toute la surface :
+        // derrière la barre supérieure d'état + derrière la zone inférieure de navigation
         enableEdgeToEdge()
+
         setContent {
             LearnRetrofitOkHttpTheme {
-                AppNavigation()
+                AppNavigation(
+                    authRepository = authRepository
+                )
             }
         }
     }

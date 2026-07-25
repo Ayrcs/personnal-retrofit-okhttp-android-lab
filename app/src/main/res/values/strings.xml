@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">LearnRetrofitOkHttp</string>
+
+    <string name="login_title">Connexion à Directus</string>
+    <string name="login_email_label">Adresse e-mail</string>
+    <string name="login_password_label">Mot de passe</string>
+    <string name="login_button">Se connecter</string>
+    <string name="login_in_progress">Connexion en cours…</string>
+
+    <string name="login_error_empty_fields">Saisissez votre adresse e-mail et votre mot de passe.</string>
+    <string name="login_error_invalid_credentials">Adresse e-mail ou mot de passe incorrect.</string>
+    <string name="login_error_network">Impossible de contacter le serveur. Vérifiez votre connexion.</string>
+    <string name="login_error_server">Le serveur a rencontré une erreur. Réessayez plus tard.</string>
+    <string name="login_success">Connexion réussie</string>
 </resources>

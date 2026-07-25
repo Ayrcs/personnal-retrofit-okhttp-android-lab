@@ -20,7 +20,7 @@ class DirectusNetworkClient {
         redactHeader("Authorization")
 
         level = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor.Level.BASIC
+            HttpLoggingInterceptor.Level.HEADERS
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
