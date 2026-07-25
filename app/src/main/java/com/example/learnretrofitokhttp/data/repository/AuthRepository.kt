@@ -6,6 +6,8 @@ import com.example.learnretrofitokhttp.data.remote.dto.AuthTokensDto
 import com.example.learnretrofitokhttp.data.remote.dto.LoginRequestDto
 import com.example.learnretrofitokhttp.data.remote.dto.LogoutRequestDto
 import com.example.learnretrofitokhttp.data.remote.dto.RefreshRequestDto
+import java.io.IOException
+import retrofit2.HttpException
 
 class AuthRepository(
     private val api: DirectusApi,
@@ -26,15 +28,28 @@ class AuthRepository(
     suspend fun login(
         email: String,
         password: String
-    ) {
-        val response = api.login(
-            request = LoginRequestDto(
-                email = email.trim(),
-                password = password
+    ): LoginResult {
+        return try {
+            val response = api.login(
+                request = LoginRequestDto(
+                    email = email.trim(),
+                    password = password
+                )
             )
-        )
 
-        saveTokens(response.data)
+            saveTokens(response.data)
+            LoginResult.SUCCESS
+
+        } catch (exception: HttpException) {
+            if (exception.code() == 401) {
+                LoginResult.INVALID_CREDENTIALS
+            } else {
+                LoginResult.SERVER_ERROR
+            }
+
+        } catch (exception: IOException) {
+            LoginResult.NETWORK_ERROR
+        }
     }
 
     suspend fun refreshSession() {
