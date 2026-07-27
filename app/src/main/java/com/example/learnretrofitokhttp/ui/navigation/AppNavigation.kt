@@ -15,13 +15,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.learnretrofitokhttp.R
 import com.example.learnretrofitokhttp.data.repository.AuthRepository
+import com.example.learnretrofitokhttp.data.repository.TestsRepository
 import com.example.learnretrofitokhttp.feature.auth.LoginRoute
+import com.example.learnretrofitokhttp.feature.tests.TestsRoute
 
 
 @Composable
 fun AppNavigation(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    testsRepository: TestsRepository
 ) {
+    // mutableStateOf() :   Quand .value change, le composable se recharge.
+    //                      On utilise alors .value pour le lire et pour l'écrire.
+    //
+    // remember() :         À la recomposition, les états sont perdus.
+    //                      remeber Permet de se souvenir de l'état.
+    //
+    // by :     est une fonctionnalité Kotlin appelée délégation de propriété.
+    //          permet d'éviter l'usage de .value
+    //          appel les getter / setter du type
+
     var isAuthenticated by remember {
         mutableStateOf(
             authRepository.isAuthenticated()
@@ -32,16 +45,10 @@ fun AppNavigation(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         if (isAuthenticated) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.login_success)
-                )
-            }
+            TestsRoute(
+                testsRepository = testsRepository,
+                modifier = Modifier.padding(innerPadding)
+            )
         } else {
             LoginRoute(
                 authRepository = authRepository,

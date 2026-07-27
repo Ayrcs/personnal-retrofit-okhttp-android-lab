@@ -15,6 +15,7 @@ class MainActivity : ComponentActivity() {
         // On récupère l'objet application en le castant par LearnRetrofitOkHttpApplication
         val application = application as LearnRetrofitOkHttpApplication
         val authRepository = application.container.authRepository
+        val testsRepository = application.container.testsRepository
 
         // Permet à la fenêtre de l’application d’occuper toute la surface :
         // derrière la barre supérieure d'état + derrière la zone inférieure de navigation
@@ -23,7 +24,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             LearnRetrofitOkHttpTheme {
                 AppNavigation(
-                    authRepository = authRepository
+                    authRepository = authRepository,
+                    testsRepository = testsRepository
                 )
             }
         }

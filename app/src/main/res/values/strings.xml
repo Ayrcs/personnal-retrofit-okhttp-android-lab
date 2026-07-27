@@ -12,4 +12,21 @@
     <string name="login_error_network">Impossible de contacter le serveur. Vérifiez votre connexion.</string>
     <string name="login_error_server">Le serveur a rencontré une erreur. Réessayez plus tard.</string>
     <string name="login_success">Connexion réussie</string>
+
+    <string name="tests_title">Tests Directus</string>
+    <string name="tests_empty">Aucun test disponible.</string>
+    <string name="tests_retry">Réessayer</string>
+
+    <string name="tests_error_session_expired">La session a expiré.</string>
+    <string name="tests_error_access_denied">Vous n’avez pas la permission de consulter les tests.</string>
+    <string name="tests_error_network">Impossible de contacter le serveur.</string>
+    <string name="tests_error_server">Le serveur a rencontré une erreur.</string>
+
+    <string name="test_unknown_description">Test sans description</string>
+    <string name="test_not_available">Non renseigné</string>
+    <string name="test_status">Statut : %1$s</string>
+    <string name="test_smartphone">Smartphone : %1$s</string>
+    <string name="test_battery">Batterie : %1$s</string>
+    <string name="test_protocol">Protocole : %1$s</string>
+    <string name="test_identifications">Identifications : %1$d</string>
 </resources>
