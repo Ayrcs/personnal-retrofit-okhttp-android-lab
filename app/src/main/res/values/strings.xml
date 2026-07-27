@@ -9,6 +9,7 @@
 
     <string name="login_error_empty_fields">Saisissez votre adresse e-mail et votre mot de passe.</string>
     <string name="login_error_invalid_credentials">Adresse e-mail ou mot de passe incorrect.</string>
+    <string name="login_error_session_expired">Votre session a expiré. Veuillez vous reconnecter.</string>
     <string name="login_error_network">Impossible de contacter le serveur. Vérifiez votre connexion.</string>
     <string name="login_error_server">Le serveur a rencontré une erreur. Réessayez plus tard.</string>
     <string name="login_success">Connexion réussie</string>
@@ -29,4 +30,7 @@
     <string name="test_battery">Batterie : %1$s</string>
     <string name="test_protocol">Protocole : %1$s</string>
     <string name="test_identifications">Identifications : %1$d</string>
+
+    <string name="logout">Se déconnecter</string>
+    <string name="logout_in_progress">Déconnexion…</string>
 </resources>

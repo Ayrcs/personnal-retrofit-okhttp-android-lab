@@ -13,6 +13,18 @@ class AuthRepository(
     private val api: DirectusApi,
     private val tokenStore: TokenStore
 ) {
+    suspend fun restoreSession(): Boolean {
+        return try {
+            tokenStore.restore()
+            isAuthenticated()
+        } catch (_: IOException) {
+            false
+        }
+    }
+
+    suspend fun clearLocalSession() {
+        tokenStore.clear()
+    }
 
     // email + password
     //      ↓
@@ -79,16 +91,23 @@ class AuthRepository(
                     )
                 )
             }
+        } catch (_: IOException) {
+            // Même sans réseau, l'utilisateur doit pouvoir
+            // se déconnecter localement.
+        } catch (_: HttpException) {
+            // Même si Directus refuse la requête,
+            // les tokens locaux seront supprimés.
         } finally {
             tokenStore.clear()
         }
     }
 
     fun isAuthenticated(): Boolean {
-        return tokenStore.getAccessToken() != null
+        return tokenStore.getAccessToken() != null &&
+            tokenStore.getRefreshToken() != null
     }
 
-    private fun saveTokens(tokens: AuthTokensDto) {
+    private suspend fun saveTokens(tokens: AuthTokensDto) {
         tokenStore.save(
             accessToken = tokens.accessToken,
             refreshToken = tokens.refreshToken

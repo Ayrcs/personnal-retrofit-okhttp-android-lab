@@ -27,8 +27,27 @@ class AuthViewModel(
     // StateFlow : n'est pas modifiable.
     // .asStateFlow() masque les opérations de modifications.
 
-    private val _uiState = MutableStateFlow(AuthUiState()) // Peut utiliser .update { }
+    private val _uiState = MutableStateFlow(
+        AuthUiState(isInitializing = true)
+    ) // Peut utiliser .update { }
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow() // Impossible à modifier
+
+    init {
+        restoreSession()
+    }
+
+    private fun restoreSession() {
+        viewModelScope.launch {
+            val isAuthenticated = authRepository.restoreSession()
+
+            _uiState.update {
+                it.copy(
+                    isInitializing = false,
+                    isAuthenticated = isAuthenticated
+                )
+            }
+        }
+    }
 
     fun onEmailChanged(email: String) {
         _uiState.update {
@@ -104,6 +123,39 @@ class AuthViewModel(
                         error = AuthError.SERVER
                     )
                 }
+            }
+        }
+    }
+
+    fun logout() {
+        val currentState = _uiState.value
+
+        if (currentState.isLoading) return
+
+        _uiState.update {
+            it.copy(
+                isLoading = true,
+                error = null
+            )
+        }
+
+        viewModelScope.launch {
+            try {
+                authRepository.logout()
+            } finally {
+                _uiState.value = AuthUiState()
+            }
+        }
+    }
+
+    fun onSessionExpired() {
+        viewModelScope.launch {
+            try {
+                authRepository.clearLocalSession()
+            } finally {
+                _uiState.value = AuthUiState(
+                    error = AuthError.SESSION_EXPIRED
+                )
             }
         }
     }

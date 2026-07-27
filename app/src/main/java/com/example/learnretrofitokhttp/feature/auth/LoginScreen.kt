@@ -48,6 +48,10 @@ fun LoginScreen(
             stringResource(R.string.login_error_invalid_credentials)
         }
 
+        AuthError.SESSION_EXPIRED -> {
+            stringResource(R.string.login_error_session_expired)
+        }
+
         AuthError.NETWORK -> {
             stringResource(R.string.login_error_network)
         }

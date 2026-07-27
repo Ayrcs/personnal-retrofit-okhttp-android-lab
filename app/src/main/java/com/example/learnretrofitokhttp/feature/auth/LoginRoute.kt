@@ -11,33 +11,12 @@ import com.example.learnretrofitokhttp.data.repository.AuthRepository
 
 @Composable
 fun LoginRoute(
-    authRepository: AuthRepository,
-    onAuthenticated: () -> Unit,
+    authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
 ) {
-    // Sans remember, une nouvelle factory serait construite à chaque recomposition
-    val factory = remember(authRepository) {
-        authViewModelFactory(
-            authRepository = authRepository
-        )
-    }
-
-    val authViewModel: AuthViewModel = viewModel(
-        factory = factory
-    )
-
     val uiState by authViewModel.uiState
         .collectAsStateWithLifecycle()
 
-    // Un changement d’écran est un effet, tandis qu'une composition doit principalement
-    // décrire l’interface.
-    LaunchedEffect(uiState.isAuthenticated) {
-        if (uiState.isAuthenticated) {
-            onAuthenticated()
-        }
-    }
-
-    // LoginScreen reste purement visuel, LoginRoute le connecte au repo.
     LoginScreen(
         uiState = uiState,
         onEmailChanged = authViewModel::onEmailChanged,

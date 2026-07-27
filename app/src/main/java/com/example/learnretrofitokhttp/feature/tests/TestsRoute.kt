@@ -1,6 +1,7 @@
 package com.example.learnretrofitokhttp.feature.tests
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -11,6 +12,9 @@ import com.example.learnretrofitokhttp.data.repository.TestsRepository
 @Composable
 fun TestsRoute(
     testsRepository: TestsRepository,
+    onLogout: () -> Unit,
+    onSessionExpired: () -> Unit,
+    isLoggingOut: Boolean,
     modifier: Modifier = Modifier
 ) {
     val factory = remember(testsRepository) {
@@ -26,9 +30,22 @@ fun TestsRoute(
     val uiState by testsViewModel.uiState
         .collectAsStateWithLifecycle()
 
+    LaunchedEffect(uiState) {
+        val currentState = uiState
+
+        if (
+            currentState is TestsUiState.Error &&
+            currentState.reason == TestsError.SESSION_EXPIRED
+        ) {
+            onSessionExpired()
+        }
+    }
+
     TestsScreen(
         uiState = uiState,
         onRetry = testsViewModel::loadTests,
+        onLogout = onLogout,
+        isLoggingOut = isLoggingOut,
         modifier = modifier
     )
 }
