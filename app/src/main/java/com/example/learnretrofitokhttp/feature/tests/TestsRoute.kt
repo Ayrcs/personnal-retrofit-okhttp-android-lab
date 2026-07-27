@@ -11,6 +11,8 @@ import com.example.learnretrofitokhttp.data.repository.TestsRepository
 @Composable
 fun TestsRoute(
     testsRepository: TestsRepository,
+    onLogout: () -> Unit,
+    isLoggingOut: Boolean,
     modifier: Modifier = Modifier
 ) {
     val factory = remember(testsRepository) {
@@ -29,6 +31,8 @@ fun TestsRoute(
     TestsScreen(
         uiState = uiState,
         onRetry = testsViewModel::loadTests,
+        onLogout = onLogout,
+        isLoggingOut = isLoggingOut,
         modifier = modifier
     )
 }

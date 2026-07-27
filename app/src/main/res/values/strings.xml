@@ -29,4 +29,7 @@
     <string name="test_battery">Batterie : %1$s</string>
     <string name="test_protocol">Protocole : %1$s</string>
     <string name="test_identifications">Identifications : %1$d</string>
+
+    <string name="logout">Se déconnecter</string>
+    <string name="logout_in_progress">Déconnexion…</string>
 </resources>

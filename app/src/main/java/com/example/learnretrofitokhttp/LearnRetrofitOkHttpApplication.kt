@@ -22,6 +22,8 @@ class LearnRetrofitOkHttpApplication : Application() {
     // réseau tant qu’il n’est pas utilisé.
 
     val container: AppContainer by lazy {
-        AppContainer()
+        AppContainer(
+            context = applicationContext
+        )
     }
 }

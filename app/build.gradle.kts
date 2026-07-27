@@ -42,6 +42,9 @@ android {
 
 // Dépendances par défaut
 dependencies {
+    // Dépendances du stockage persistant
+    implementation(libs.androidx.datastore.preferences)
+
     // Dépendances Retrofit et OkHttp
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

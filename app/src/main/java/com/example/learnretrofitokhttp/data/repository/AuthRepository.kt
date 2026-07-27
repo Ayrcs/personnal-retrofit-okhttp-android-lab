@@ -79,6 +79,12 @@ class AuthRepository(
                     )
                 )
             }
+        } catch (_: IOException) {
+            // Même sans réseau, l'utilisateur doit pouvoir
+            // se déconnecter localement.
+        } catch (_: HttpException) {
+            // Même si Directus refuse la requête,
+            // les tokens locaux seront supprimés.
         } finally {
             tokenStore.clear()
         }
@@ -88,7 +94,7 @@ class AuthRepository(
         return tokenStore.getAccessToken() != null
     }
 
-    private fun saveTokens(tokens: AuthTokensDto) {
+    private suspend fun saveTokens(tokens: AuthTokensDto) {
         tokenStore.save(
             accessToken = tokens.accessToken,
             refreshToken = tokens.refreshToken

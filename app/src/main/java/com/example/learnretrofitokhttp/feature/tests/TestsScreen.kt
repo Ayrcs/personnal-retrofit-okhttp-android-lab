@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +34,8 @@ import com.example.learnretrofitokhttp.ui.theme.LearnRetrofitOkHttpTheme
 fun TestsScreen(
     uiState: TestsUiState,
     onRetry: () -> Unit,
+    onLogout: () -> Unit,
+    isLoggingOut: Boolean,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
@@ -44,6 +48,8 @@ fun TestsScreen(
         is TestsUiState.Content -> {
             TestsContent(
                 tests = uiState.tests,
+                onLogout = onLogout,
+                isLoggingOut = isLoggingOut,
                 modifier = modifier
             )
         }
@@ -73,19 +79,42 @@ private fun LoadingContent(
 @Composable
 private fun TestsContent(
     tests: List<TestDto>,
+    onLogout: () -> Unit,
+    isLoggingOut: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Text(
-            text = stringResource(R.string.tests_title),
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
-                vertical = 20.dp
-            ),
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 12.dp
+                ),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.tests_title),
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.headlineMedium
+            )
+
+            OutlinedButton(
+                onClick = onLogout,
+                enabled = !isLoggingOut
+            ) {
+                Text(
+                    text = if (isLoggingOut) {
+                        stringResource(R.string.logout_in_progress)
+                    } else {
+                        stringResource(R.string.logout)
+                    }
+                )
+            }
+        }
 
         if (tests.isEmpty()) {
             Box(
@@ -294,7 +323,9 @@ private fun TestsScreenPreview() {
                     )
                 )
             ),
-            onRetry = {}
+            onRetry = {},
+            onLogout = {},
+            isLoggingOut = false
         )
     }
 }

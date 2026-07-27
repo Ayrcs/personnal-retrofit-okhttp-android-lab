@@ -13,10 +13,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.learnretrofitokhttp.R
 import com.example.learnretrofitokhttp.data.repository.AuthRepository
 import com.example.learnretrofitokhttp.data.repository.TestsRepository
+import com.example.learnretrofitokhttp.feature.auth.AuthViewModel
 import com.example.learnretrofitokhttp.feature.auth.LoginRoute
+import com.example.learnretrofitokhttp.feature.auth.authViewModelFactory
 import com.example.learnretrofitokhttp.feature.tests.TestsRoute
 
 
@@ -35,26 +39,32 @@ fun AppNavigation(
     //          permet d'éviter l'usage de .value
     //          appel les getter / setter du type
 
-    var isAuthenticated by remember {
-        mutableStateOf(
-            authRepository.isAuthenticated()
+    val authFactory = remember(authRepository) {
+        authViewModelFactory(
+            authRepository = authRepository
         )
     }
+
+    val authViewModel: AuthViewModel = viewModel(
+        factory = authFactory
+    )
+
+    val authUiState by authViewModel.uiState
+        .collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        if (isAuthenticated) {
+        if (authUiState.isAuthenticated) {
             TestsRoute(
                 testsRepository = testsRepository,
+                onLogout = authViewModel::logout,
+                isLoggingOut = authUiState.isLoading,
                 modifier = Modifier.padding(innerPadding)
             )
         } else {
             LoginRoute(
-                authRepository = authRepository,
-                onAuthenticated = {
-                    isAuthenticated = true
-                },
+                authViewModel = authViewModel,
                 modifier = Modifier.padding(innerPadding)
             )
         }
